@@ -9,13 +9,9 @@ Live Demo @ https://moola-cache.firebaseapp.com/
 
 I built this demo because I wanted to learn more about the folowing:
 
-Angular 5
-Angular Material v2
-@angular/flex-layout
-Typescript
+Angular 5, Angular Material v2, @angular/flex-layout, Typescript
 
 It uses Google Firebase for persistence.
-
 
 Three ways to play around with the demo:
 

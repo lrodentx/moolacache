@@ -10,7 +10,7 @@
             <input matInput type="text" placeholder="Email address.." formControlName="email" required autocomplete="off">
             <mat-error *ngIf="emailForm.controls.email.invalid">{{getErrorMessage('email')}}</mat-error>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field hintLabel="must be at least six characters">
             <input matInput type="password" placeholder="Password" formControlName="password" required autocomplete="off">
             <mat-error *ngIf="emailForm.controls.password.invalid">{{getErrorMessage('password')}}</mat-error>                
         </mat-form-field>

@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent {
+  error: String;
 
   constructor(public authService: AuthService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
