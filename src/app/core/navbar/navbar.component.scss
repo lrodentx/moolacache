@@ -1,0 +1,17 @@
+@import "../../../theme";
+
+.navbar {
+    box-shadow: 0 4px 6px #000;
+    z-index: 2;
+    position: relative;
+}
+
+.navbar-home {
+    color: mat-color($app-dark-foreground, text);
+    background-color: mat-color($app-primary);
+}
+
+.navbar-displayname {
+    padding: 5px;
+    font-size: 14px;
+}

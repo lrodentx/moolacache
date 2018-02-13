@@ -1,0 +1,31 @@
+<div fxLayout="column" fxLayoutGap="20px">
+  <app-navbar></app-navbar>  
+  <form [formGroup]="moolaForm" fxLayoutAlign="center center">
+      <mat-card fxFlex="0 1 90%" fxLayoutGap="16px">
+        <mat-form-field>
+            <mat-select placeholder="Select a Farm" formControlName="farm" required autocomplete="off" >
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let farm of farms$ | async" [value]="farm">
+                {{farm.name}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field hintLabel="Enter an amount greater than zero">
+          <input 
+            matInput type="number" 
+            placeholder="Enter Moola Amount" 
+            formControlName="amountToAllocate" 
+            required 
+            autocomplete="off"
+            min=".01">
+          <mat-error *ngIf="moolaForm.controls.amountToAllocate.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </mat-card>
+  </form>
+  <div *ngIf="moolaForm.controls.farm.value">
+      <app-moola-list
+        [farm]="moolaForm.controls.farm.value"
+        [moolaForm]="moolaForm">
+      </app-moola-list>
+  </div>
+</div>

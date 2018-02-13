@@ -1,0 +1,28 @@
+
+@import "../../theme";
+
+.home-background {
+    background: url(../../assets/img/moola-cow.jpg);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: mat-color($app-primary);    
+    height: 85vh;
+}
+
+.home-slogan {
+    background-color: mat-color($app-primary);
+    box-shadow: 0 1px 2px #000;
+    z-index: 1;
+    position: relative;
+}
+
+.home-heading {
+    font-size: 2em;
+    color: mat-color($app-dark-foreground, text);
+}
+
+p {
+    font-size: 1em;
+    color: mat-color($app-dark-foreground, text);
+}

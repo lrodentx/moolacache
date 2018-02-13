@@ -1,0 +1,19 @@
+<div fxLayout="column" class="signin">
+  <app-navbar></app-navbar>
+  <div fxLayout="column" fxLayoutGap="15px" class="form-container">
+    <a routerLink="/" id="goback">Go back</a>
+  
+    <span class="error" *ngIf="error">{{ error }}</span>
+      
+    <button mat-raised-button (click)="signInWithGoogle()" id="google" color="primary">
+        <mat-icon fxFlexAlign="start" svgIcon="google-icon" arial-label="Google"></mat-icon>
+        <span fxFlex fxFlexAlign="center">Sign in with Google</span>
+    </button>
+    <button mat-raised-button routerLink="/email" id="email" color="primary">
+      <mat-icon fxFlexAlign="start" arial-label="Email">email</mat-icon>
+      <span fxFlex fxFlexAlign="center">Sign in with Email</span>
+    </button>
+  
+    <a routerLink="/signup" routerLinkActive="active" class="alc">Don't have an account?, <strong>Sign Up</strong></a>
+  </div>
+</div>

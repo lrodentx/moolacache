@@ -1,0 +1,20 @@
+<div fxLayout="column" class="signup">
+    <app-navbar></app-navbar>
+    <div fxLayout="column" fxLayoutGap="15px" class="form-container">
+        <a routerLink="/signin" id="goback">Go back</a>
+
+        <span class="error" *ngIf="error">{{ error }}</span>
+    
+        <form [formGroup]="signupForm" fxLayout="column" fxLayoutGap="16px">
+            <mat-form-field>
+                <input matInput type="text" placeholder="Email address.." formControlName="email" required autocomplete="off">
+                <mat-error *ngIf="signupForm.controls.email.invalid">{{getErrorMessage('email')}}</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="password" placeholder="Password" formControlName="password" required autocomplete="off">
+                <mat-error *ngIf="signupForm.controls.password.invalid">{{getErrorMessage('password')}}</mat-error>                
+            </mat-form-field>
+            <button mat-raised-button (click)="signUpWithEmail()" color="primary" [disabled]="signupForm.invalid">Sign up with email</button>
+        </form>
+    </div>
+</div>

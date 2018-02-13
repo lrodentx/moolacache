@@ -1,0 +1,44 @@
+<mat-toolbar color="primary" class="navbar">
+  <mat-toolbar-row>
+    <span *ngIf="isShowHome()">
+        <button mat-raised-button (click)=goHome() color="accent">
+            <mat-icon arial-label="Home">home</mat-icon>
+            Home
+        </button>          
+    </span>        
+    <span *ngIf="isShowMenu()">
+        <button mat-icon-button [matMenuTriggerFor]="menu" color="accent">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)=addFarms()>
+                <mat-icon arial-label="Farm">add_circle</mat-icon>
+                <span>Farms</span>
+            </button>
+            <button mat-menu-item (click)=addBarns()>
+                <mat-icon arial-label="Barn">add_circle</mat-icon>
+                <span>Barns</span>
+            </button>
+            <button mat-menu-item (click)=addMoola()>
+                <mat-icon arial-label="Moola">add_circle</mat-icon>
+                <span>Moola</span>
+            </button>
+        </mat-menu>
+    </span>
+    <span fxFlex></span>
+    <span *ngIf="authService.user$ | async as user; else showLogin">
+      <span *ngIf="isShowMenu()" class="navbar-displayname"> Howdy, {{ user.displayName }} </span>
+      <button mat-raised-button (click)="signOut()" color="accent">
+          <mat-icon arial-label="Logout">person</mat-icon>
+          Sign Out
+      </button>  
+    </span>
+    <ng-template #showLogin>
+        <span fxFlex></span>
+        <button *ngIf="isShowSignIn()" mat-raised-button (click)="signIn()" color="accent">
+            <mat-icon arial-label="Login">person</mat-icon>
+            Sign In
+          </button>      
+    </ng-template>
+  </mat-toolbar-row>    
+</mat-toolbar>

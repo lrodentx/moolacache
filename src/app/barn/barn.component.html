@@ -1,0 +1,55 @@
+<div fxLayout="column" class="crud-page">
+  <app-navbar></app-navbar>
+  <mat-sidenav-container class="crud-container">
+      <mat-sidenav class="crud-sidenav" mode="side" opened="true">
+        <mat-nav-list>
+          <mat-list-item>
+            <button fxFlex mat-raised-button (click)="add()" color="accent">Add barn</button>
+          </mat-list-item>
+        </mat-nav-list>
+        <mat-nav-list>
+          <mat-list-item *ngFor="let barn of barns$ | async; let i = index" (click)="selectBarn(i,barn)" [class.crud-selectedRow]="i === selectedRow">              
+            <span>{{barn.name}}</span>
+          </mat-list-item>
+        </mat-nav-list>            
+      </mat-sidenav>
+      <mat-sidenav-content class="crud-sidenav-content">      
+        <mat-card>
+          <form [formGroup]="barnForm" fxLayout="column" fxLayoutGap="16px">
+              <mat-form-field>
+                  <mat-select placeholder="Select a Farm" formControlName="farm$key" required autocomplete="off">
+                    <mat-option *ngFor="let farm of farms$ | async" [value]="farm.$key">
+                      {{farm.name}}
+                    </mat-option>
+                  </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="Enter a Barn Name" formControlName="name" required autocomplete="off">
+                <mat-error *ngIf="barnForm.controls.name.invalid">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Enter a Barn Desc" formControlName="desc" autocomplete="off">                
+            </mat-form-field>
+            <mat-form-field hintLabel="Enter a percentage from 1 to 100">
+                <input fxFlex="0 1 20%" 
+                  matInput type="number" 
+                  placeholder="Enter a default allocation amount" 
+                  formControlName="allocation" 
+                  autocomplete="off"
+                  min="0"
+                  max="100">
+            </mat-form-field>
+            <mat-form-field>
+                <input fxFlex="0 1 40%" 
+                  matInput type="number" placeholder="Enter an goal amount" formControlName="goal" autocomplete="off" min="0">
+                <span matPrefix>$&nbsp;</span>
+            </mat-form-field>
+            <mat-card-actions fxLayout="row" fxLayoutGap="5px" class="crud-card-actions">                                
+                <button fxFlex="0 0 auto" mat-raised-button (click)="save()" color="accent" [disabled]="barnForm.pristine || barnForm.invalid">Save</button>
+                <button fxFlex="0 0 auto" type="button" mat-raised-button (click)="confirmDelete()" color="accent" [disabled]="barnForm.invalid">Delete</button>
+            </mat-card-actions>
+          </form>
+        </mat-card>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

@@ -1,0 +1,55 @@
+
+@import "~@angular/material/_theming";
+
+@include mat-core();
+
+$app-primary: mat-palette($mat-blue, 900);
+$app-accent: mat-palette($mat-blue-grey, 400);
+$app-warn: mat-palette($mat-red);
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+$app-light-foreground: map-get($app-theme, foreground);
+
+$app-foreground: map-get($app-theme, foreground);
+$app-background: map-get($app-theme, background);
+
+$app-dark-theme: mat-dark-theme($app-primary, $app-accent, $app-warn);
+$app-dark-foreground: map-get($app-dark-theme, foreground);
+
+@include angular-material-theme($app-theme);
+
+.crud-page {
+  width: 100vw;
+  height: 100vh;
+}
+  
+.crud-container {
+  padding-top: 4em;
+  position: absolute;
+  top: 60px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+
+.crud-sidenav {
+  width: 200px;
+}
+
+.crud-sidenav-content {
+  max-width: 70%;
+  padding: 0 1em;
+}
+
+.crud-card-actions {
+  padding: 0 1em;
+}
+
+.crud-selectedRow {
+  background: mat-color($app-background, disabled-button);
+}
+
+@media (max-width: 600px) {
+  .crud-sidenav {
+    width: 120px;      
+  }
+}

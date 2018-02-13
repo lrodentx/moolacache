@@ -1,0 +1,25 @@
+<div [formGroup]="moolaForm" fxLayout="column" fxLayoutGap="16px">
+  <div formArrayName="moolaDetails" *ngFor="let moolaDetail of moolaDetails; let i=index;">
+    <app-moola-detail
+      [moolaDetails]="moolaForm.controls.moolaDetails"
+      [moolaDetail]="moolaDetail">
+    </app-moola-detail>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+  <mat-card fxFlex="0 1 90%" fxLayoutGap="8px">
+    <button mat-raised-button (click)="allocate()" color="accent" [disabled]="moolaForm.pristine || moolaForm.invalid">Calculate</button>
+    <button mat-raised-button (click)="save()" color="accent" [disabled]="moolaForm.pristine || moolaForm.invalid || (sumAllocations() !== 100)">Save</button>
+    <mat-form-field floatLabel="always">
+      <input matInput placeholder="Total Allocation" [value]="sumAllocations()" [readonly]="true">
+    </mat-form-field>
+  </mat-card>
+  </div>
+
+  <div *ngIf="logJSON" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card fxFlex="0 1 90%">
+        moola value: {{ moolaForm.value | json}}
+    </mat-card>
+  </div>
+  
+</div>
