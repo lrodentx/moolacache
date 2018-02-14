@@ -17,8 +17,10 @@
             formControlName="amountToAllocate" 
             required 
             autocomplete="off"
+            step="0.01"
             min=".01">
           <mat-error *ngIf="moolaForm.controls.amountToAllocate.invalid">{{getErrorMessage()}}</mat-error>
+          <span matPrefix>$&nbsp;</span>
         </mat-form-field>
       </mat-card>
   </form>

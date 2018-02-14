@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Allocation } from '../shared/services/allocation/allocation';
 import { AllocationConfig } from '../shared/services/allocation/allocation.config';
 import { AllocationHAM } from './../shared/services/allocation/allocation-ham';
+import { AllocationLRM } from './../shared/services/allocation/allocation-lrm';
 import { AllocationServiceFactory } from './../shared/services/allocation/allocation.factory';
 import { AllocationService } from '../shared/services/allocation/allocation.service';
 import { MoolaService } from './moola-list.service';
@@ -60,8 +61,12 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
         moolaDetail.allocation = barn.allocation;
         this.moolaDetails.push(moolaDetail);
       });
-      this.moolaDetails = _.sortBy(this.moolaDetails, 'barnName');
+      this.moolaDetails = this.moolaDetailSort();
     });
+  }
+
+  private moolaDetailSort(): MoolaDetail[] {
+    return _.sortBy(this.moolaDetails, ['allocation', 'barnName']).reverse();
   }
 
   ngOnDestroy() {
@@ -75,11 +80,12 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
 
   allocate() {
     const formModel = this.moolaForm.value;
-    const config: AllocationConfig = new AllocationHAM(formModel.amountToAllocate, this.transformToAllocations(formModel.moolaDetails));
+    const config: AllocationConfig = new AllocationLRM(formModel.amountToAllocate, this.transformToAllocations(formModel.moolaDetails));
     const service: AllocationService = this.allocationServiceFactory.createServiceWithConfig(config);
     const allocations: Allocation[] = service.allocate();
     this.moolaForm.setControl('moolaDetails', new FormArray([]));
     this.moolaDetails = this.updateMoolaDetails(formModel.moolaDetails, this.transformToMoolaDetail(allocations));
+    this.moolaDetails = this.moolaDetailSort();
   }
 
   private transformToAllocations(moolaDetails: MoolaDetail[]): Allocation[] {
@@ -106,6 +112,7 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
     const moola: Moola = this.prepareMoola();
     // this.moolaService.add(moola);
     console.log(this.prepareMoola());
+    this.moolaForm.reset();
   }
 
   private prepareMoola() {

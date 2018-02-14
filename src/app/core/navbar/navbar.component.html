@@ -11,19 +11,23 @@
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)=addFarms()>
-                <mat-icon arial-label="Farm">add_circle</mat-icon>
-                <span>Farms</span>
+            <button mat-menu-item (click)=showMoolaCache()>
+                <mat-icon arial-label="MoolaCache">add_circle</mat-icon>
+                <span>Moola Cache</span>
+            </button>        
+            <button mat-menu-item (click)=addMoola()>
+                <mat-icon arial-label="Moola">add_circle</mat-icon>
+                <span>Moola</span>
             </button>
             <button mat-menu-item (click)=addBarns()>
                 <mat-icon arial-label="Barn">add_circle</mat-icon>
                 <span>Barns</span>
             </button>
-            <button mat-menu-item (click)=addMoola()>
-                <mat-icon arial-label="Moola">add_circle</mat-icon>
-                <span>Moola</span>
+            <button mat-menu-item (click)=addFarms()>
+                <mat-icon arial-label="Farm">add_circle</mat-icon>
+                <span>Farms</span>
             </button>
-        </mat-menu>
+            </mat-menu>
     </span>
     <span fxFlex></span>
     <span *ngIf="authService.user$ | async as user; else showLogin">

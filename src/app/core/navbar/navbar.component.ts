@@ -68,4 +68,8 @@ export class NavbarComponent {
     this.router.navigate(['moola']);
   }
 
+  showMoolaCache() {
+    this.router.navigate(['moolacache']);
+  }
+
 }

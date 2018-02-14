@@ -7,11 +7,12 @@
   </div>
 
   <div fxLayout="row" fxLayoutAlign="center center">
-  <mat-card fxFlex="0 1 90%" fxLayoutGap="8px">
+  <mat-card fxFlex="0 1 90%" fxLayout="row" fxLayoutGap="8px">
     <button mat-raised-button (click)="allocate()" color="accent" [disabled]="moolaForm.pristine || moolaForm.invalid">Calculate</button>
     <button mat-raised-button (click)="save()" color="accent" [disabled]="moolaForm.pristine || moolaForm.invalid || (sumAllocations() !== 100)">Save</button>
-    <mat-form-field floatLabel="always">
+    <mat-form-field fxFlex="0 0 100px" floatLabel="always" hintLabel="Must be 100%">
       <input matInput placeholder="Total Allocation" [value]="sumAllocations()" [readonly]="true">
+      <span matSuffix>&nbsp;%</span>
     </mat-form-field>
   </mat-card>
   </div>

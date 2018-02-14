@@ -17,6 +17,7 @@ import { BarnComponent } from './barn/barn.component';
 import { MoolaComponent } from './moola/moola.component';
 import { MoolaDetailComponent } from './moola-detail/moola-detail.component';
 import { MoolaListComponent } from './moola-list/moola-list.component';
+import { MoolaCacheComponent } from './moolacache/moolacache.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MoolaListComponent } from './moola-list/moola-list.component';
     MoolaComponent,
     MoolaDetailComponent,
     MoolaListComponent,
+    MoolaCacheComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -43,6 +45,10 @@ import { MoolaListComponent } from './moola-list/moola-list.component';
       {
         path: 'moola',
         component: MoolaComponent, canActivate: [ AuthGuard ]
+      },
+      {
+        path: 'moolacache',
+        component: MoolaCacheComponent, canActivate: [ AuthGuard ]
       },
       {
         path: '**',

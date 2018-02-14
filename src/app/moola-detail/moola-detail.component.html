@@ -1,7 +1,14 @@
 <div [formGroup]="moolaDetailForm" fxLayoutAlign="center center">
-    <mat-card fxFlex="0 1 90%" fxLayoutGap="16px">
+    <mat-card fxFlex="0 1 90%" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="16px">
         <mat-form-field floatLabel="always">
             <input matInput placeholder="Barn Name" formControlName="barnName" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field floatLabel="always">
+                <input fxFlex="0 1 40%" 
+                    matInput type="number" placeholder="Amount" formControlName="amount"
+                    min="0" 
+                    [readonly]="true">
+                <span matPrefix>$&nbsp;</span>
         </mat-form-field>
         <mat-form-field hintLabel="Enter a percentage from 1 to 100" floatLabel="always">
             <input fxFlex="0 1 25%" 
@@ -13,13 +20,6 @@
                 max="100"
                 [(ngModel)]="moolaDetail.allocation">
             <span matSuffix>&nbsp;%</span>
-        </mat-form-field>
-        <mat-form-field floatLabel="always">
-            <input fxFlex="0 1 40%" 
-                matInput type="number" placeholder="Amount" formControlName="amount"
-                min="0" 
-                [readonly]="true">
-            <span matPrefix>$&nbsp;</span>
         </mat-form-field>
     </mat-card>
 </div>
