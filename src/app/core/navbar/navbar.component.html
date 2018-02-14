@@ -33,14 +33,14 @@
     <span *ngIf="authService.user$ | async as user; else showLogin">
       <span *ngIf="isShowMenu()" class="navbar-displayname"> Howdy, {{ user.displayName }} </span>
       <button mat-raised-button (click)="signOut()" color="accent">
-          <mat-icon arial-label="Logout">person</mat-icon>
+          <mat-icon arial-label="signOut">person</mat-icon>
           Sign Out
       </button>  
     </span>
     <ng-template #showLogin>
         <span fxFlex></span>
         <button *ngIf="isShowSignIn()" mat-raised-button (click)="signIn()" color="accent">
-            <mat-icon arial-label="Login">person</mat-icon>
+            <mat-icon arial-label="signIn">person</mat-icon>
             Sign In
           </button>      
     </ng-template>

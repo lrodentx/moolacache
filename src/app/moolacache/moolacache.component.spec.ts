@@ -1,3 +1,4 @@
+import { AppComponent } from './../app.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MoolaCacheComponent } from './moolacache.component';
@@ -8,7 +9,7 @@ describe('MoolacacheComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MoolaCacheComponent ]
+      declarations: [ AppComponent, MoolaCacheComponent ]
     })
     .compileComponents();
   }));

@@ -1,15 +1,31 @@
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AuthService } from './../core/services/auth.service';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { FarmService } from './farm.service';
 
-describe('FarmServiceService', () => {
+const AuthServiceStub = {
+  getUserId: (userid) => {
+    return 'testUser';
+  }
+};
+
+const AngularFirestoreStub = {
+  collection: () => {
+      return { snapshotChanges: () => ({ map: () => ({})})};
+    }
+};
+
+describe('FarmService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FarmService]
+      providers: [FarmService,
+        { provide: AuthService, useValue: AuthServiceStub },
+        { provide: AngularFirestore, useValue: AngularFirestoreStub } ]
     });
   });
 
-  xit('should be created', inject([FarmService], (service: FarmService) => {
+  it('should be created', inject([FarmService], (service: FarmService) => {
     expect(service).toBeTruthy();
   }));
 });
