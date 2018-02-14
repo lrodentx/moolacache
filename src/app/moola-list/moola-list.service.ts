@@ -10,9 +10,9 @@ export class MoolaService {
   moolaCollection: AngularFirestoreCollection<Moola>;
   public moola$: Observable<Moola[]>;
 
-  constructor(private afs: AngularFirestore, private authService: AuthService) {
+  constructor(public angularFirestore: AngularFirestore, private authService: AuthService) {
     this.userId = this.authService.getUserId();
-    this.moolaCollection = this.afs.collection('moola', ref => ref.where('uid', '==', this.userId));
+    this.moolaCollection = this.angularFirestore.collection('moola', ref => ref.where('uid', '==', this.userId));
     this.moola$ = this.moolaCollection.snapshotChanges().map(moolas => {
       return moolas.map(moola => {
         const data = moola.payload.doc.data() as Moola;
