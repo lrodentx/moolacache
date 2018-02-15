@@ -1,11 +1,14 @@
 
 # moolacache
 MoolaCache Demo Angular 5, TypeScript, FlexLayout
-    Move you money into a barn and watch it grow
+    Move your money into a barn and watch it grow
 
 The ideal behind this demo is to teach money stewardship (budgeting) to kids.
 
 Live Demo @ https://moola-cache.firebaseapp.com/
+
+The demo is accessible from a desktop or mobile browser the UI is designed to be responsive to the
+sizing of the browser window.
 
 I built this demo because I wanted to learn more about the folowing:
 
