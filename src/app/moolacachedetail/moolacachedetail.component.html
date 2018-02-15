@@ -1,4 +1,9 @@
-<ngx-charts-number-card
-[scheme]="colorScheme"
-[results]="moolaByBarn">
-</ngx-charts-number-card>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-card fxFlex="0 0 90%" fxLayout="row" fxLayoutAlign="center center">
+      <ngx-charts-number-card 
+        [view]="view"
+        [scheme]="scheme" 
+        [results]="moolaByBarn">
+      </ngx-charts-number-card>
+  </mat-card>
+</div>

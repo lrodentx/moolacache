@@ -7,8 +7,10 @@ import { Component, Input, OnChanges, OnDestroy, DoCheck } from '@angular/core';
 import { Barn } from '../barn/barn';
 import { Moola } from '../moola/moola';
 import { MoolaDetail } from '../moola-detail/moola-detail';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 
 import * as _ from 'lodash';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'app-moolacachedetail',
@@ -18,18 +20,18 @@ import * as _ from 'lodash';
 export class MoolacachedetailComponent implements OnChanges, OnDestroy {
   private barnSubscription: Subscription;
   private moolaSubscription: Subscription;
+  private mediaSubscription: Subscription;
 
   @Input('farm')
   public farm: Farm;
   public moolaByBarn = [ {} ];
   public barns$: Observable<Barn>;
   public moola$: Observable<Moola>;
-  public view: any[] = [700, 400];
-  public colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C']
-  };
+  view: any[] = [];
+  public scheme = 'nightLights';
 
-  constructor(private barnService: BarnService, private moolaService: MoolaService) { }
+  constructor(private barnService: BarnService, private moolaService: MoolaService,
+    private media: ObservableMedia) { }
 
   ngOnChanges() {
     const barnkeys: string[] = [];
@@ -59,11 +61,30 @@ export class MoolacachedetailComponent implements OnChanges, OnDestroy {
         .value();
       });
 
+      this.mediaSubscription = this.media.asObservable().subscribe((change: MediaChange) => {
+        this.changeGraphSize();
+      });
+      this.changeGraphSize();
+  }
+
+  private changeGraphSize() {
+    let graphSize = 0;
+    if (this.media.isActive('xs')) {
+      graphSize = 350;
+    } else if (this.media.isActive('sm')) {
+      graphSize = 400;
+    } else if (this.media.isActive('md')) {
+      graphSize = 500;
+    } else {
+      graphSize = 500;
+    }
+    this.view = [graphSize, graphSize];
   }
 
   ngOnDestroy() {
     if (this.barnSubscription) { this.barnSubscription.unsubscribe(); }
     if (this.moolaSubscription) { this.moolaSubscription.unsubscribe(); }
+    if (this.mediaSubscription) { this.mediaSubscription.unsubscribe(); }
   }
 
 }
