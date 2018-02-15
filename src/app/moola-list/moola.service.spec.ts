@@ -2,8 +2,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { AuthService } from './../core/services/auth.service';
 import { AuthGuard } from './../core/services/auth-guard.service';
 import { TestBed, inject } from '@angular/core/testing';
-
-import { MoolaService } from './moola-list.service';
+import { MoolaService } from './moola.service';
 
 const AuthServiceStub = {
   getUserId: (userid) => {

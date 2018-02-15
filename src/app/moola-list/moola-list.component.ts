@@ -13,7 +13,7 @@ import { AllocationHAM } from './../shared/services/allocation/allocation-ham';
 import { AllocationLRM } from './../shared/services/allocation/allocation-lrm';
 import { AllocationServiceFactory } from './../shared/services/allocation/allocation.factory';
 import { AllocationService } from '../shared/services/allocation/allocation.service';
-import { MoolaService } from './moola-list.service';
+import { MoolaService } from './moola.service';
 
 import * as _ from 'lodash';
 
@@ -32,7 +32,7 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
   @Input('moolaForm')
   public moolaForm: FormGroup;
 
-  public barns$: Observable<Barn[]>;
+  public barns$: Observable<Barn>;
   public moolaDetails: MoolaDetail[] = [];
   public logJSON = false;
   public totalAllocations = 0;
@@ -52,9 +52,8 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
     this.moolaForm.setControl('moolaDetails', new FormArray([]));
     if (this.barnSubscription && !this.barnSubscription.closed) { this.barnSubscription.unsubscribe(); }
     this.moolaDetails = [];
-    this.barns$ = this.barnService.barns$.map(barns => barns.filter(barn => barn.farm$key === this.farm.$key));
-    this.barnSubscription = this.barns$.subscribe( barns => {
-      barns.map(barn => {
+    this.barns$ = this.barnService.barns$.switchMap(barns => barns.filter(barn => barn.farm$key === this.farm.$key));
+    this.barnSubscription = this.barns$.subscribe(barn => {
         const moolaDetail: MoolaDetail = <MoolaDetail>{};
         moolaDetail.barn$key = barn.$key;
         moolaDetail.barnName =  barn.name;
@@ -62,7 +61,6 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
         this.moolaDetails.push(moolaDetail);
       });
       this.moolaDetails = this.moolaDetailSort();
-    });
   }
 
   private moolaDetailSort(): MoolaDetail[] {
@@ -110,8 +108,8 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
 
   save() {
     const moola: Moola = this.prepareMoola();
-    // this.moolaService.add(moola);
-    console.log(this.prepareMoola());
+    this.moolaService.add(moola);
+    // console.log(this.prepareMoola());
     this.moolaForm.reset();
   }
 

@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { FarmComponent } from './farm/farm.component';
 import { FarmService} from './farm/farm.service';
 import { BarnService} from './barn/barn.service';
-import { MoolaService } from './moola-list/moola-list.service';
+import { MoolaService } from './moola-list/moola.service';
 import { AllocationLRM } from './shared/services/allocation/allocation-lrm';
 import { AllocationServiceFactory } from './shared/services/allocation/allocation.factory';
 import { BarnComponent } from './barn/barn.component';
@@ -18,6 +18,8 @@ import { MoolaComponent } from './moola/moola.component';
 import { MoolaDetailComponent } from './moola-detail/moola-detail.component';
 import { MoolaListComponent } from './moola-list/moola-list.component';
 import { MoolaCacheComponent } from './moolacache/moolacache.component';
+import { MoolacachedetailComponent } from './moolacachedetail/moolacachedetail.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -29,10 +31,12 @@ import { MoolaCacheComponent } from './moolacache/moolacache.component';
     MoolaDetailComponent,
     MoolaListComponent,
     MoolaCacheComponent,
+    MoolacachedetailComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     CoreModule,
+    NgxChartsModule,
     RouterModule.forChild([
       {
         path: 'farm',
