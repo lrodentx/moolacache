@@ -47,7 +47,9 @@ export class MoolacachedetailComponent implements OnChanges, OnDestroy {
     });
 
     this.moola$ = this.moolaService.moola$.switchMap(moolas => moolas
+      .filter((moola) => (moola.farm$key === this.farm.$key))
       .filter((moola, idx) => _.includes(barnkeys, moola.moolaDetails[idx].barn$key)));
+
       this.moolaSubscription = this.moola$.map(moola => {
         const _moolaDetails: MoolaDetail[] = moola.moolaDetails as MoolaDetail[];
         moolaDetails.push.apply(moolaDetails, _moolaDetails);
