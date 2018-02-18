@@ -38,6 +38,7 @@
     "luxon-angular": "^0.2.0",
     "moment": "^2.20.1",
     "ngx-logger": "^1.1.2",
+    "numeral": "^2.0.6",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

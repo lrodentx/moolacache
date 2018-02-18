@@ -10,6 +10,7 @@ import { MoolaDetail } from '../moola-detail/moola-detail';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 
 import * as _ from 'lodash';
+import * as numeral from 'numeral';
 import 'rxjs/add/operator/takeUntil';
 
 @Component({
@@ -61,12 +62,18 @@ export class MoolacachedetailComponent implements OnChanges, OnDestroy {
           value: _.round(_.sumBy(moolaDetail, 'amount'), 2),
         }))
         .value();
+        this.moolaByBarn = _.map(this.moolaByBarn, (moola) => this.toCurrency(moola));
       });
 
       this.mediaSubscription = this.media.asObservable().subscribe((change: MediaChange) => {
         this.changeGraphSize();
       });
       this.changeGraphSize();
+  }
+
+  private toCurrency(moola) {
+    const currency = numeral(moola.value);
+    return { name: moola.name, value: currency.format('$0,0.00') };
   }
 
   private changeGraphSize() {
