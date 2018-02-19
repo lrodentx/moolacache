@@ -17,6 +17,7 @@ import { MoolaService } from './moola.service';
 
 import * as _ from 'lodash';
 
+import 'rxjs/add/operator/concatMap';
 
 @Component({
   selector: 'app-moola-list',
@@ -50,16 +51,22 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges() {
     this.moolaForm.setControl('moolaDetails', new FormArray([]));
-    if (this.barnSubscription && !this.barnSubscription.closed) { this.barnSubscription.unsubscribe(); }
+    if (this.barnSubscription && !this.barnSubscription.closed) {
+      this.barnSubscription.unsubscribe();
+    }
     this.moolaDetails = [];
-    this.barns$ = this.barnService.barns$.switchMap(barns => barns.filter(barn => barn.farm$key === this.farm.$key));
-    this.barnSubscription = this.barns$.subscribe(barn => {
+    this.barns$ = this.barnService.barns$.switchMap(barns =>
+      _.sortBy(barns.filter(barn => barn.farm$key === this.farm.$key), ['allocation', 'barnName']).reverse());
+
+    this.barnSubscription = this.barns$
+    .subscribe((barn: Barn) => {
         const moolaDetail: MoolaDetail = <MoolaDetail>{};
         moolaDetail.barn$key = barn.$key;
         moolaDetail.barnName =  barn.name;
         moolaDetail.allocation = barn.allocation;
-        this.moolaDetails.push(moolaDetail); }
-      );
+        this.moolaDetails.push(moolaDetail);
+       }
+    );
   }
 
   ngOnDestroy() {
@@ -78,7 +85,7 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
     const allocations: Allocation[] = service.allocate();
     this.moolaForm.setControl('moolaDetails', new FormArray([]));
     this.moolaDetails = this.updateMoolaDetails(formModel.moolaDetails, this.transformToMoolaDetail(allocations));
-    this.moolaDetails = this.moolaDetailSort();
+    this.moolaDetails = _.sortBy(this.moolaDetails, ['allocation', 'barnName']).reverse();
   }
 
   private transformToMoolaDetail(allocations: Allocation[]): MoolaDetail[] {
@@ -99,10 +106,6 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
   private updateMoolaDetails(moolaDetails: MoolaDetail[], allocatedMoolaDetail: MoolaDetail[]) {
     return _.merge(_.sortBy(moolaDetails, 'barnName'),
       _.sortBy(allocatedMoolaDetail, 'barnName'));
-  }
-
-  private moolaDetailSort(): MoolaDetail[] {
-    return _.sortBy(this.moolaDetails, ['allocation', 'barnName']).reverse();
   }
 
   save() {
