@@ -47,28 +47,26 @@ export class MoolacachedetailComponent implements OnChanges, OnDestroy {
       barnkeys.push(barn.$key);
     });
 
-    this.moola$ = this.moolaService.moola$.switchMap(moolas => moolas
-      .filter((moola) => (moola.farm$key === this.farm.$key))
-      .filter((moola, idx) => _.includes(barnkeys, moola.moolaDetails[idx].barn$key)));
+    this.moola$ = this.moolaService.moola$.switchMap(moolas => moolas.filter((moola) => (moola.farm$key === this.farm.$key)));
 
-      this.moolaSubscription = this.moola$.map(moola => {
-        const _moolaDetails: MoolaDetail[] = moola.moolaDetails as MoolaDetail[];
-        moolaDetails.push.apply(moolaDetails, _moolaDetails);
-       }).subscribe(_moolaDetails => {
-        this.moolaByBarn = _(moolaDetails)
-        .groupBy(x => x.barnName)
-        .map((moolaDetail, barnName) => ({
-          name: barnName,
-          value: _.round(_.sumBy(moolaDetail, 'amount'), 2),
-        }))
-        .value();
-        this.moolaByBarn = _.map(this.moolaByBarn, (moola) => this.toCurrency(moola));
-      });
+    this.moolaSubscription = this.moola$.map(moola => {
+      const _moolaDetails: MoolaDetail[] = moola.moolaDetails as MoolaDetail[];
+      moolaDetails.push.apply(moolaDetails, _moolaDetails);
+      }).subscribe(_moolaDetails => {
+      this.moolaByBarn = _(moolaDetails)
+      .groupBy(x => x.barnName)
+      .map((moolaDetail, barnName) => ({
+        name: barnName,
+        value: _.round(_.sumBy(moolaDetail, 'amount'), 2),
+      }))
+      .value();
+      this.moolaByBarn = _.map(this.moolaByBarn, (moola) => this.toCurrency(moola));
+    });
 
-      this.mediaSubscription = this.media.asObservable().subscribe((change: MediaChange) => {
-        this.changeGraphSize();
-      });
+    this.mediaSubscription = this.media.asObservable().subscribe((change: MediaChange) => {
       this.changeGraphSize();
+    });
+    this.changeGraphSize();
   }
 
   private toCurrency(moola) {
