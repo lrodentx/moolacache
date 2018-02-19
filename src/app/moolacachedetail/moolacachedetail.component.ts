@@ -1,13 +1,11 @@
-import { MoolaService } from './../moola-list/moola.service';
+import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BarnService } from './../barn/barn.service';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 import { Farm } from './../farm/farm';
-import { Component, Input, OnChanges, OnDestroy, DoCheck } from '@angular/core';
-import { Barn } from '../barn/barn';
 import { Moola } from '../moola/moola';
+import { MoolaService } from './../moola-list/moola.service';
 import { MoolaDetail } from '../moola-detail/moola-detail';
-import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 
 import * as _ from 'lodash';
 import * as numeral from 'numeral';
@@ -26,26 +24,18 @@ export class MoolacachedetailComponent implements OnChanges, OnDestroy {
   @Input('farm')
   public farm: Farm;
   public moolaByBarn = [ {} ];
-  public barns$: Observable<Barn>;
   public moola$: Observable<Moola>;
   view: any[] = [];
   public scheme = 'nightLights';
 
-  constructor(private barnService: BarnService, private moolaService: MoolaService,
+  constructor(private moolaService: MoolaService,
     private media: ObservableMedia) { }
 
   ngOnChanges() {
-    const barnkeys: string[] = [];
     const moolaDetails = [];
     this.moolaByBarn = [];
 
-    if (this.barnSubscription && !this.barnSubscription.closed) { this.barnSubscription.unsubscribe(); }
     if (this.moolaSubscription && !this.moolaSubscription.closed) { this.moolaSubscription.unsubscribe(); }
-
-    this.barns$ = this.barnService.barns$.switchMap(barns => barns.filter(barn => barn.farm$key === this.farm.$key));
-    this.barnSubscription = this.barns$.subscribe(barn => {
-      barnkeys.push(barn.$key);
-    });
 
     this.moola$ = this.moolaService.moola$.switchMap(moolas => moolas.filter((moola) => (moola.farm$key === this.farm.$key)));
 
@@ -89,7 +79,6 @@ export class MoolacachedetailComponent implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.barnSubscription) { this.barnSubscription.unsubscribe(); }
     if (this.moolaSubscription) { this.moolaSubscription.unsubscribe(); }
     if (this.mediaSubscription) { this.mediaSubscription.unsubscribe(); }
   }

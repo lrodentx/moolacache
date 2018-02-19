@@ -58,13 +58,8 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
         moolaDetail.barn$key = barn.$key;
         moolaDetail.barnName =  barn.name;
         moolaDetail.allocation = barn.allocation;
-        this.moolaDetails.push(moolaDetail);
-      });
-      this.moolaDetails = this.moolaDetailSort();
-  }
-
-  private moolaDetailSort(): MoolaDetail[] {
-    return _.sortBy(this.moolaDetails, ['allocation', 'barnName']).reverse();
+        this.moolaDetails.push(moolaDetail); }
+      );
   }
 
   ngOnDestroy() {
@@ -86,6 +81,15 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
     this.moolaDetails = this.moolaDetailSort();
   }
 
+  private transformToMoolaDetail(allocations: Allocation[]): MoolaDetail[] {
+    return _.map(allocations, function(allocation) {
+      const moolaDetail: MoolaDetail = <MoolaDetail>{};
+      moolaDetail.barnName = allocation.id;
+      moolaDetail.amount = allocation.amount;
+      return moolaDetail;
+    });
+  }
+
   private transformToAllocations(moolaDetails: MoolaDetail[]): Allocation[] {
     return _.map(moolaDetails, function (moolaDetail) {
       return new Allocation(moolaDetail.barnName, moolaDetail.allocation);
@@ -97,13 +101,8 @@ export class MoolaListComponent implements OnInit, OnChanges, OnDestroy {
       _.sortBy(allocatedMoolaDetail, 'barnName'));
   }
 
-  private transformToMoolaDetail(allocations: Allocation[]): MoolaDetail[] {
-    return _.map(allocations, function(allocation) {
-      const moolaDetail: MoolaDetail = <MoolaDetail>{};
-      moolaDetail.barnName = allocation.id;
-      moolaDetail.amount = allocation.amount;
-      return moolaDetail;
-    });
+  private moolaDetailSort(): MoolaDetail[] {
+    return _.sortBy(this.moolaDetails, ['allocation', 'barnName']).reverse();
   }
 
   save() {
