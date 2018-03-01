@@ -1,6 +1,6 @@
 import { User } from './user';
 import { UserService } from './user.service';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 
@@ -8,12 +8,18 @@ import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { BootController } from '../common/boot/boot';
 
 @Injectable()
 export class AuthService {
  user$: Observable<User>;
 
-  constructor(public afAuth: AngularFireAuth, private router: Router, private route: ActivatedRoute, private userService: UserService) {
+  constructor(public afAuth: AngularFireAuth,
+    private ngZone: NgZone,
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService) {
+
     this.afAuth.auth.getRedirectResult().then(credential => {
       if (credential.user) {
         this.updateUser(credential.user);
@@ -66,6 +72,8 @@ export class AuthService {
 
   signOut() {
     this.afAuth.auth.signOut().then(() => {
+      // Triggers the reboot in main.ts
+      this.ngZone.runOutsideAngular(() => BootController.getbootControl().restart());
       this.goHome();
     });
   }

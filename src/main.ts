@@ -1,3 +1,4 @@
+import { BootController } from './app/core/common/boot/boot';
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
@@ -9,5 +10,12 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+const init = () => {
+  platformBrowserDynamic().bootstrapModule(AppModule)
+  .then(() => (<any>Window).appBootstrap && (<any>window).appBootstrap())
+  .catch(err => console.error('NG Bootstrap Error =>', err));
+};
+
+init();
+
+const boot = BootController.getbootControl().watchReboot().subscribe(() => init());
